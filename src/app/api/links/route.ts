@@ -1,0 +1,53 @@
+import { auth } from "@/lib/auth";
+import { linkSchema } from "@/schemas/linkSchema";
+import { headers } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
+import { nanoid } from 'nanoid'
+import { prisma } from "@/lib/prisma";
+
+export async function POST(request: NextRequest) {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers()
+    })
+
+    if (!session?.user) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
+    }
+
+    const data = await request.json()
+
+    const result = linkSchema.safeParse(data)
+
+    if (!result.success) {
+      return NextResponse.json({ message: result.error.flatten().fieldErrors }, { status: 400 })
+    }
+
+    const id = nanoid(7)
+
+    if (result.data.customSlug) {
+      const isExist = await prisma.link.findUnique({
+        where: { customSlug: result.data.customSlug }
+      })
+
+      if (isExist) {
+        return NextResponse.json({ message: "Custom slug already exists" }, { status: 409 })
+      }
+    }
+
+    const link = await prisma.link.create({
+      data: {
+        userId: session.user.id,
+        shortCode: id,
+        url: result.data.url,
+        customSlug: result.data.customSlug || undefined
+      }
+    })
+
+    return NextResponse.json({ message: "Link created successfully", data: link }, { status: 201 })
+
+  } catch (error) {
+    console.error(error)
+    return NextResponse.json({ error: "Failed to create link" }, { status: 500 })
+  }
+}
