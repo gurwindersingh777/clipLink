@@ -20,7 +20,7 @@ export default function RootLayout({
     <html lang="en" className={cn("font-sans", geist.variable)}>
       <body>
         <Providers>{children}</Providers>
-        <Toaster />
+        <Toaster position="top-center"/>
       </body>
     </html>
   );
