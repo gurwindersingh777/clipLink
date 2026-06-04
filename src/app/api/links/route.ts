@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { nanoid } from 'nanoid'
 import { prisma } from "@/lib/prisma";
+import { TIERS } from "@/lib/constants";
 
 export async function POST(request: NextRequest) {
   try {
@@ -13,6 +14,18 @@ export async function POST(request: NextRequest) {
 
     if (!session?.user) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
+    }
+
+    const tier = (session.user.tier as keyof typeof TIERS) ?? "FREE"
+
+    const count = await prisma.link.count({
+      where: { userId: session.user.id }
+    })
+
+    const limit = TIERS[tier].maxLinks <= count
+
+    if (limit) {
+      return NextResponse.json({ message: "Free plan limit reached. Upgrade to Pro for unlimited links." }, { status: 403 })
     }
 
     const data = await request.json()

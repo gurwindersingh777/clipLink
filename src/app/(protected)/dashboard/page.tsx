@@ -8,7 +8,7 @@ export default function DashboardPage() {
     <main className="min-h-screen bg-white">
       <DashboardNavbar />
       
-      <section className=" bg-linear-to-b from-sky-200 via-sky-100 to-white">
+      <section className=" bg-linear-to-b from-sky-100 via-sky-100 to-white">
         <div className="mx-auto max-w-7xl px-6 py-12">
           <div className="text-center">
             <h1 className="text-4xl font-bold tracking-tight">Dashboard</h1>

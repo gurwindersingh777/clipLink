@@ -9,8 +9,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { linkFormValues, linkSchema, } from "@/schemas/linkSchema";
 import { useCreateLink } from "@/hooks/useCreateLink";
+import { authClient } from "@/lib/auth-client";
+import { useLinks } from "@/hooks/useLinks";
 
 export default function CreateLinkForm() {
+
+  const session = authClient.useSession()
+  const { data: links = [], isPending: linksPending } = useLinks()
+  const tier = session.data?.user.tier ?? "FREE"
+  const isAtLimit = tier === "FREE" && links.length >= 5
 
   const [copied, setCopied] = useState(false)
   const [createdLink, setCreatedLink] = useState<string | null>(null)
@@ -153,7 +160,7 @@ export default function CreateLinkForm() {
 
               <Button
                 type="submit"
-                disabled={isPending}
+                disabled={isPending || isAtLimit || linksPending}
                 className="w-full bg-sky-600 hover:bg-sky-700"
               >
                 {isPending ? (
@@ -165,6 +172,25 @@ export default function CreateLinkForm() {
                   "Create Link"
                 )}
               </Button>
+
+              <div className="text-center text-xs text-muted-foreground">
+                {tier === "FREE" && (<p>{links.length} / 5 links used</p>)}
+              </div>
+
+              {isAtLimit && (
+                <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-center">
+                  <p className="font-medium text-amber-800">You've reached your free plan limit.</p>
+
+                  <p className="mt-1 text-sm text-amber-700">
+                    Upgrade to create unlimited short links and unlock premium features.
+                  </p>
+
+                  <Button asChild className="mt-3">
+                    <a href="#">Upgrade Now</a>
+                  </Button>
+                </div>
+              )}
+
             </form>
           </CardContent>
         </>
