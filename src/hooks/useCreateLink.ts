@@ -1,14 +1,17 @@
+"use client";
+
 import { linkFormValues } from "@/schemas/linkSchema";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "sonner";
 
 export function useCreateLink() {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
-  const { mutate, isPending } = useMutation({
+  return useMutation({
     mutationFn: async (data: linkFormValues) => {
-      return axios.post("/api/links", data)
+      const response = await axios.post("/api/links", data)
+      return response.data
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["links"] })
@@ -19,6 +22,4 @@ export function useCreateLink() {
       toast.error(message)
     },
   })
-
-  return { mutate, isPending }
 }

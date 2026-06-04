@@ -1,0 +1,36 @@
+import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import { headers } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
+
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    })
+
+    if (!session?.user) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
+    }
+
+    const { id } = await params
+
+    const link = await prisma.link.findUnique({ where: { id }, })
+
+    if (!link) {
+      return NextResponse.json({ message: "Link not found" }, { status: 404 })
+    }
+
+    if (link.userId !== session.user.id) {
+      return NextResponse.json({ message: "Access denied" }, { status: 403 })
+    }
+
+    await prisma.link.delete({ where: { id } })
+
+    return NextResponse.json({ success: true, message: "Link deleted successfully" })
+
+  } catch (error) {
+    console.error(error)
+    return NextResponse.json({ success: false, message: "Failed to delete link" }, { status: 500 })
+  }
+}

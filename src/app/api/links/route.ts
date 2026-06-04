@@ -16,7 +16,6 @@ export async function POST(request: NextRequest) {
     }
 
     const data = await request.json()
-
     const result = linkSchema.safeParse(data)
 
     if (!result.success) {
@@ -31,7 +30,7 @@ export async function POST(request: NextRequest) {
       })
 
       if (isExist) {
-        return NextResponse.json({ message: "Custom slug already exists" }, { status: 409 })
+        return NextResponse.json({ message: "This custom link is already taken" }, { status: 409 })
       }
     }
 
@@ -49,5 +48,28 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error(error)
     return NextResponse.json({ error: "Failed to create link" }, { status: 500 })
+  }
+}
+
+export async function GET(request: NextRequest) {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers()
+    })
+
+    if (!session?.user) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
+    }
+
+    const links = await prisma.link.findMany({
+      where: { userId: session.user.id },
+      orderBy: { createdAt: 'desc' }
+    })
+
+    return NextResponse.json(links, { status: 200 })
+
+  } catch (error) {
+    console.error(error)
+    return NextResponse.json({ error: "Failed to get link" }, { status: 500 })
   }
 }
