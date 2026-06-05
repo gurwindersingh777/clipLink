@@ -1,35 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import { format } from "date-fns";
-import { Check, Copy } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { useLinks } from "@/hooks/useLinks";
-import { useDeleteLink } from "@/hooks/useDeleteLink";
-import { StatusBadge } from "./StatusBadge";
-import { getStatus } from "@/lib/utils";
 import { Skeleton } from "../ui/skeleton";
-import DeleteLink from "./DeleteLink";
+import LinksTableItem from "./LinksTableItem";
 
 
 export default function LinksTable() {
-
+  
   const { data: links = [], isLoading, isError } = useLinks()
-
-  const [copiedId, setCopiedId] = useState<string | null>(null)
-
-  const copyToClipboard = async (text: string, id: string) => {
-    try {
-      await navigator.clipboard.writeText(text)
-      setCopiedId(id)
-      setTimeout(() => {
-        setCopiedId(null)
-      }, 2000)
-    } catch (error) {
-      console.error(error)
-    }
-  }
 
   if (isLoading) {
     return (
@@ -103,52 +82,9 @@ export default function LinksTable() {
               </thead>
 
               <tbody>
-                {links.map((link) => {
-                  const slug = link.customSlug ?? link.shortCode
-                  const shortUrl = `${process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"}/${slug}`
-
-                  return (
-                    <tr
-                      key={link.id}
-                      className="border-b last:border-0"
-                    >
-                      <td className="py-4">
-                        <div className="truncate w-62.5" title={link.url}>{link.url}</div>
-                      </td>
-
-                      <td className="py-4">
-                        <div className="flex items-center gap-2">
-                          <a
-                            href={shortUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="max-w-55 truncate text-sky-600 hover:underline"
-                          >
-                            {shortUrl}
-                          </a>
-
-                          <Button
-                            variant="outline"
-                            size="icon"
-                            onClick={() =>
-                              copyToClipboard(shortUrl, link.id)
-                            }
-                          >
-                            {copiedId === link.id ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                          </Button>
-                        </div>
-                      </td>
-
-                      <td className="py-4">{link.count}</td>
-                      <td className="py-4">{format(new Date(link.createdAt), "MMM dd, yyyy")}</td>
-                      <td className="py-4"><StatusBadge status={getStatus(link.active, link.expireAt)} /></td>
-
-                      <td className="py-4 text-right">
-                        <DeleteLink link={link} />
-                      </td>
-                    </tr>
-                  );
-                })}
+                {links.map((link) =>
+                  <LinksTableItem key={link.id} link={link} />
+                )}
               </tbody>
             </table>
           </div>
