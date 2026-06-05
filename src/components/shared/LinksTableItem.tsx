@@ -1,16 +1,18 @@
 'use client'
-import { Link } from "@prisma/client";
+import { Link as LinkType } from "@prisma/client";
 import { Button } from "../ui/button";
 import { useState } from "react";
-import { Check, Copy } from "lucide-react";
+import { BarChart, Check, Copy } from "lucide-react";
 import { format } from "date-fns";
 import { StatusBadge } from "./StatusBadge";
 import { getStatus } from "@/lib/utils";
 import DeleteLink from "./DeleteLink";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import QRCodeDialog from "./QRCodeDialog";
 
 
-export default function LinksTableItem({ link }: { link: Link }) {
+export default function LinksTableItem({ link }: { link: LinkType }) {
   const router = useRouter()
 
   const [copiedId, setCopiedId] = useState<string | null>(null)
@@ -53,15 +55,7 @@ export default function LinksTableItem({ link }: { link: Link }) {
             {shortUrl}
           </a>
 
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() =>
-              copyToClipboard(shortUrl, link.id)
-            }
-          >
-            {copiedId === link.id ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-          </Button>
+
         </div>
       </td>
 
@@ -69,8 +63,34 @@ export default function LinksTableItem({ link }: { link: Link }) {
       <td className="py-4">{format(new Date(link.createdAt), "MMM dd, yyyy")}</td>
       <td className="py-4"><StatusBadge status={getStatus(link.active, link.expireAt)} /></td>
 
-      <td className="py-4 text-right">
-        <DeleteLink link={link} />
+      <td
+        className="py-4 text-right"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex justify-end gap-2">
+
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={(e) => {
+              e.stopPropagation()
+              copyToClipboard(shortUrl, link.id)
+            }}
+          >
+            {copiedId === link.id ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+          </Button>
+
+          <Button asChild variant="outline" size="sm">
+            <Link href={`/dashboard/${link.id}`}><BarChart /></Link>
+          </Button>
+
+          <QRCodeDialog
+            url={shortUrl}
+            shortCode={slug}
+          />
+
+          <DeleteLink link={link} />
+        </div>
       </td>
     </tr>
   );
