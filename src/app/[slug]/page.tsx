@@ -1,10 +1,36 @@
 import { prisma } from "@/lib/prisma"
+import { createLinkLimiter, redirectLimiter } from "@/lib/ratelimit";
 import { headers } from "next/headers"
 import { notFound, redirect } from "next/navigation"
 
 export default async function Slug({ params }: { params: Promise<{ slug: string }> }) {
 
   const { slug } = await params
+  
+  const header = await headers()
+
+  const ipAddress = header.get("x-forwarded-for")?.split(",")[0]?.trim()
+    || header.get("x-real-ip")
+    || "unknown"
+
+  const { success } = await redirectLimiter.limit(ipAddress)
+
+  if (!success) {
+    return (
+      <main className="flex min-h-screen items-center justify-center p-6">
+        <div className="max-w-md text-center">
+          <h1 className="text-3xl font-bold">
+            Too Many Requests
+          </h1>
+
+          <p className="mt-3 text-muted-foreground">
+            You've made too many requests in a short
+            period. Please try again later.
+          </p>
+        </div>
+      </main>
+    );
+  }
 
   // Note: Next.js resolves static routes before dynamic ones.
   // /dashboard, /login, /signup will never be caught here
@@ -40,10 +66,6 @@ export default async function Slug({ params }: { params: Promise<{ slug: string 
       </div>
     )
   }
-
-  const header = await headers()
-
-  const ipAddress = header.get("x-forwarded-for") || header.get("x-real-ip") || null
 
   await prisma.$transaction([
     prisma.click.create({

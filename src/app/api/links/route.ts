@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { nanoid } from 'nanoid'
 import { prisma } from "@/lib/prisma";
 import { TIERS } from "@/lib/constants";
+import { createLinkLimiter } from "@/lib/ratelimit";
 
 export async function POST(request: NextRequest) {
   try {
@@ -14,6 +15,13 @@ export async function POST(request: NextRequest) {
 
     if (!session?.user) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
+    }
+
+    const ip = request.headers.get("x-forwarded-for") ?? "anonymous"
+    const { success } = await createLinkLimiter.limit(ip)
+
+    if (!success) {
+      return NextResponse.json({ message: "Too many requests. Please slow down." }, { status: 429 })
     }
 
     const tier = (session.user.tier as keyof typeof TIERS) ?? "FREE"
