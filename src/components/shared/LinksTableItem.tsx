@@ -30,7 +30,7 @@ export default function LinksTableItem({ link }: { link: LinkType }) {
   }
 
   const slug = link.customSlug ?? link.shortCode
-  const shortUrl = `${process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"}/${slug}`
+  const shortUrl = `${process.env.NEXT_PUBLIC_APP_URL}/${slug}`
 
   return (
     <tr

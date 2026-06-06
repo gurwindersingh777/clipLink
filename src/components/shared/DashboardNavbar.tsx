@@ -43,7 +43,7 @@ export default function DashboardNavbar() {
       toast.error(message)
     }
     finally {
-      setIsSigningOut(false);
+      setIsSigningOut(false)
     }
   }
 
@@ -51,14 +51,11 @@ export default function DashboardNavbar() {
     <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
 
-        <Link
-          href="/dashboard"
-          className="flex items-center gap-3"
-        >
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-            <Link2 className="h-5 w-5" />
+        <Link href="/dashboard" className="flex items-center gap-2">
+          <div className="flex items-center justify-center rounded-xl">
+            <Link2 className="h-5 w-5 " />
           </div>
-          <p className="text-lg font-bold tracking-tight">ClipLink</p>
+          <p className="text-lg font-medium">ClipLink</p>
         </Link>
 
 
