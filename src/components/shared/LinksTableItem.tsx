@@ -2,7 +2,7 @@
 import { Link as LinkType } from "@prisma/client";
 import { Button } from "../ui/button";
 import { useState } from "react";
-import { BarChart, Check, Copy } from "lucide-react";
+import { BarChart, Check, Copy, Lock } from "lucide-react";
 import { format } from "date-fns";
 import { StatusBadge } from "./StatusBadge";
 import { getStatus } from "@/lib/utils";
@@ -10,10 +10,15 @@ import DeleteLink from "./DeleteLink";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import QRCodeDialog from "./QRCodeDialog";
+import { authClient } from "@/lib/auth-client";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 
 
 export default function LinksTableItem({ link }: { link: LinkType }) {
   const router = useRouter()
+
+  const session = authClient.useSession()
+  const tier = session.data?.user.tier
 
   const [copiedId, setCopiedId] = useState<string | null>(null)
 
@@ -35,10 +40,7 @@ export default function LinksTableItem({ link }: { link: LinkType }) {
   return (
     <tr
       key={link.id}
-      className="border-b last:border-0 hover:bg-neutral-100 cursor-pointer"
-      onClick={() => {
-        router.push(`/dashboard/${link.id}`)
-      }}
+      className="border-b last:border-0 "
     >
       <td className="py-4">
         <div className="truncate w-62.5" title={link.url}>{link.url}</div>
@@ -68,28 +70,92 @@ export default function LinksTableItem({ link }: { link: LinkType }) {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-end gap-2">
+          <TooltipProvider>
+            <div className="flex justify-end gap-2">
 
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={(e) => {
-              e.stopPropagation()
-              copyToClipboard(shortUrl, link.id)
-            }}
-          >
-            {copiedId === link.id ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-          </Button>
+              {/* Copy */}
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      copyToClipboard(shortUrl, link.id);
+                    }}
+                  >
+                    {copiedId === link.id ? (
+                      <Check className="h-4 w-4" />
+                    ) : (
+                      <Copy className="h-4 w-4" />
+                    )}
+                  </Button>
+                </TooltipTrigger>
 
-          <Button asChild variant="outline" size="sm">
-            <Link href={`/dashboard/${link.id}`}><BarChart /></Link>
-          </Button>
+                <TooltipContent>
+                  <p>
+                    {copiedId === link.id
+                      ? "Copied!"
+                      : "Copy short URL"}
+                  </p>
+                </TooltipContent>
+              </Tooltip>
 
-          <QRCodeDialog
-            url={shortUrl}
-            shortCode={slug}
-          />
 
-          <DeleteLink link={link} />
+              {/* QR Code */}
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div>
+                    <QRCodeDialog
+                      url={shortUrl}
+                      shortCode={slug}
+                    />
+                  </div>
+                </TooltipTrigger>
+
+                {/* Analytics */}
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <span>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        disabled={tier?.toUpperCase() === "FREE"}
+                      >
+                        <BarChart className="h-4 w-4" />
+                      </Button>
+                    </span>
+                  </TooltipTrigger>
+
+                  <TooltipContent>
+                    <p>
+                      {tier?.toUpperCase() === "FREE"
+                        ? "Upgrade to Pro to access analytics"
+                        : "View analytics"}
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+
+                <TooltipContent>
+                  <p>Generate QR Code</p>
+                </TooltipContent>
+              </Tooltip>
+
+              {/* Delete */}
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div>
+                    <DeleteLink link={link} />
+                  </div>
+                </TooltipTrigger>
+
+                <TooltipContent>
+                  <p>Delete link</p>
+                </TooltipContent>
+              </Tooltip>
+
+            </div>
+          </TooltipProvider>
         </div>
       </td>
     </tr>

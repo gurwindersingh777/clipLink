@@ -8,8 +8,15 @@ import { Toaster } from "@/components/ui/sonner";
 const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
-  title: "ClipLink"
-};
+  title: "ClipLink — Shorten links. Track clicks.",
+  description: "Create branded short URLs, monitor performance with detailed analytics, and manage all your links from one simple dashboard.",
+  openGraph: {
+    title: "ClipLink",
+    description: "Shorten links. Track clicks. Grow faster.",
+    url: "https://cliplink-app.vercel.app",
+    siteName: "ClipLink",
+  }
+}
 
 export default function RootLayout({
   children,
@@ -20,7 +27,7 @@ export default function RootLayout({
     <html lang="en" className={cn("font-sans", geist.variable)}>
       <body>
         <Providers>{children}</Providers>
-        <Toaster position="top-center"/>
+        <Toaster position="top-center" />
       </body>
     </html>
   );
