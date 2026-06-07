@@ -8,17 +8,21 @@ A full-stack URL shortener built with Next.js 16, TypeScript, and PostgreSQL. Cr
 
 ## Tech Stack
 
-<p align="left">
-  <img src="https://skillicons.dev/icons?i=nextjs" height="40" title="Next.js" />
-  <img src="https://skillicons.dev/icons?i=ts" height="40" title="TypeScript" />
-  <img src="https://skillicons.dev/icons?i=tailwind" height="40" title="Tailwind CSS" />
-  <img src="https://skillicons.dev/icons?i=react" height="40" title="React" />
-  <img src="https://skillicons.dev/icons?i=prisma" height="40" title="Prisma" />
-  <img src="https://skillicons.dev/icons?i=postgres" height="40" title="PostgreSQL" />
-  <img src="https://skillicons.dev/icons?i=redis" height="40" title="Upstash Redis" />
-  <img src="https://skillicons.dev/icons?i=vercel" height="40" title="Vercel" />
-  <img src="https://skillicons.dev/icons?i=github" height="40" title="GitHub" />
-</p>
+![Next.js](https://img.shields.io/badge/Next.js_16-000000?style=for-the-badge\&logo=nextdotjs\&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge\&logo=typescript\&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge\&logo=react\&logoColor=61DAFB)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge\&logo=tailwindcss\&logoColor=white)
+
+![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge\&logo=prisma\&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge\&logo=postgresql\&logoColor=white)
+![Redis](https://img.shields.io/badge/Upstash_Redis-00E9A3?style=for-the-badge\&logo=redis\&logoColor=white)
+
+![Better Auth](https://img.shields.io/badge/Better_Auth-4F46E5?style=for-the-badge)
+![TanStack Query](https://img.shields.io/badge/TanStack_Query-FF4154?style=for-the-badge\&logo=reactquery\&logoColor=white)
+
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge\&logo=vercel\&logoColor=white)
+
+
 
 | Category | Technology |
 |---|---|
@@ -45,12 +49,6 @@ A full-stack URL shortener built with Next.js 16, TypeScript, and PostgreSQL. Cr
 - **Free / Pro Tiers** — Free users get 15 links. Pro users get unlimited links and custom slugs
 - **Rate Limiting** — Protects link creation and redirect endpoints from abuse
 - **Auth** — Email and password authentication with secure httpOnly sessions
-
----
-
-## Screenshots
-
-> Dashboard, analytics, and landing page screenshots can go here.
 
 ---
 
@@ -242,9 +240,5 @@ Deployed on Vercel with:
 
 **Gurwinder Singh**
 
-<p align="left">
-  <a href="https://github.com/gurwindersingh777">
-    <img src="https://skillicons.dev/icons?i=github" height="35" title="GitHub" />
-  </a>
-</p>
+- GitHub: [@gurwindersingh777](https://github.com/gurwindersingh777)
 
