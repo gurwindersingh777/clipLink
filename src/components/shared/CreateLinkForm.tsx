@@ -12,6 +12,7 @@ import { useCreateLink } from "@/hooks/useCreateLink";
 import { authClient } from "@/lib/auth-client";
 import { useLinks } from "@/hooks/useLinks";
 import Link from "next/link";
+import { TIERS } from "@/lib/constants";
 
 export default function CreateLinkForm() {
 
@@ -20,7 +21,7 @@ export default function CreateLinkForm() {
   const { data: links = [], isPending: linksPending } = useLinks()
 
   const tier = session.data?.user.tier ?? "FREE"
-  const isAtLimit = tier === "FREE" && links.length >= 5
+  const isAtLimit = tier === "FREE" && links.length >= TIERS.FREE.maxLinks
 
   const [copied, setCopied] = useState(false)
   const [createdLink, setCreatedLink] = useState<string | null>(null);
@@ -190,7 +191,7 @@ export default function CreateLinkForm() {
               </Button>
 
               <div className="text-center text-xs text-muted-foreground">
-                {tier === "FREE" && <p>{links.length} / 5 linksused</p>}
+                {tier === "FREE" && <p>{links.length} / {TIERS.FREE.maxLinks}</p>}
               </div>
 
               {isAtLimit && (

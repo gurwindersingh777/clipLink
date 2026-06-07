@@ -1,7 +1,7 @@
 
 export const TIERS = {
   FREE: {
-    maxLinks: 5,
+    maxLinks: 15,
     label: "Free"
   },
   PRO: {
