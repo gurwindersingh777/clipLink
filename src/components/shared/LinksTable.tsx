@@ -4,10 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLinks } from "@/hooks/useLinks";
 import { Skeleton } from "../ui/skeleton";
 import LinksTableItem from "./LinksTableItem";
+import { Link2 } from "lucide-react";
 
 
 export default function LinksTable() {
-  
+
   const { data: links = [], isLoading, isError } = useLinks()
 
   if (isLoading) {
@@ -59,37 +60,85 @@ export default function LinksTable() {
   }
 
   return (
-    <Card className="border-sky-100">
-      <CardHeader>
-        <CardTitle>Your Links</CardTitle>
+    <Card className="border border-slate-200/60 bg-white shadow-sm">
+      <CardHeader className="pb-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle className="text-xl font-semibold">
+              Your Links
+            </CardTitle>
+
+            <p className="mt-1 text-sm text-slate-500">
+              Manage and monitor all shortened URLs.
+            </p>
+          </div>
+
+          <div className="rounded-lg border bg-slate-50 px-3 py-1.5 text-sm text-slate-600">
+            {links.length} Links
+          </div>
+        </div>
       </CardHeader>
 
       <CardContent>
         {links.length === 0 ? (
-          <div className="py-12 text-center text-muted-foreground">No links found.</div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full table-fixed">
-              <thead>
-                <tr className="border-b text-left">
-                  <th className="w-62.5 pb-3 font-medium">Original URL</th>
-                  <th className="w-70 pb-3 font-medium">Short Link</th>
-                  <th className="w-25 pb-3 font-medium">Clicks</th>
-                  <th className="w-37.5 pb-3 font-medium">Created</th>
-                  <th className="w-30 pb-3 font-medium">Status</th>
-                  <th className="w-25 pb-3 text-right font-medium">Actions</th>
-                </tr>
-              </thead>
+          <div className="flex flex-col items-center justify-center py-16 text-center">
+            <div className="mb-4 rounded-2xl bg-slate-100 p-4">
+              <Link2 className="h-6 w-6 text-slate-500" />
+            </div>
 
-              <tbody>
-                {links.map((link) =>
-                  <LinksTableItem key={link.id} link={link} />
-                )}
-              </tbody>
-            </table>
+            <h3 className="font-semibold text-slate-900">
+              No links yet
+            </h3>
+
+            <p className="mt-2 max-w-sm text-sm text-slate-500">
+              Create your first short link above and start tracking clicks.
+            </p>
+          </div>
+        ) : (
+          <div className="overflow-hidden rounded-xl border">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b bg-slate-50/80">
+                    <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      Original URL
+                    </th>
+
+                    <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      Short Link
+                    </th>
+
+                    <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      Clicks
+                    </th>
+
+                    <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      Created
+                    </th>
+
+                    <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      Status
+                    </th>
+
+                    <th className="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {links.map((link) => (
+                    <LinksTableItem
+                      key={link.id}
+                      link={link}
+                    />
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
       </CardContent>
     </Card>
-  );
+  )
 }

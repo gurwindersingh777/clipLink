@@ -69,7 +69,7 @@ export default function CreateLinkForm() {
   };
 
   return (
-    <Card className="w-full max-w-2xl border-sky-100 shadow-xl">
+    <Card className="border border-slate-200/60 bg-white shadow-sm">
       {createdLink ? (
         <CardContent className="py-10">
           <div className="flex flex-col items-center text-center">
@@ -77,30 +77,17 @@ export default function CreateLinkForm() {
               <CheckCircle2 className="h-10 w-10 text-green-600" />
             </div>
 
-            <h2 className="text-2xl font-bold">
-              Link Created!
-            </h2>
+            <h2 className="text-2xl font-bold text-slate-900">Link Created</h2>
+            <p className="mt-2 text-slate-500">Your shortened link is ready to share.</p>
 
-            <p className="mt-2 text-muted-foreground">
-              Your shortened link is ready to
-              share.
-            </p>
-
-            <div className="mt-6 w-full rounded-xl border bg-muted/30 p-4">
-              <p className="truncate font-medium text-sky-600">
-                {createdLink}
-              </p>
+            <div className="mt-6 w-full max-w-xl rounded-xl border bg-slate-50 p-4">
+              <p className="truncate font-medium text-sky-600">{createdLink}</p>
             </div>
 
             <div className="mt-6 flex flex-wrap justify-center gap-3">
-              <Button
-                onClick={copyLink}
-                variant="default"
-              >
+              <Button onClick={copyLink}>
                 <Copy className="mr-2 h-4 w-4" />
-                {copied
-                  ? "Copied!"
-                  : "Copy Link"}
+                {copied ? "Copied!" : "Copy Link"}
               </Button>
 
               <Button
@@ -118,90 +105,103 @@ export default function CreateLinkForm() {
               </Button>
 
               <Button
-                variant="secondary"
-                className="bg-sky-600 text-white hover:bg-sky-700"
+                variant="outline"
                 onClick={createAnother}
               >
                 <Link2 className="mr-2 h-4 w-4" />
-                Clip Another URL
+                Create Another
               </Button>
             </div>
           </div>
         </CardContent>
       ) : (
         <>
-          <CardHeader className="text-center">
-            <CardTitle className="text-2xl">
-              Create Short Link
-            </CardTitle>
-
-            <CardDescription>
-              Paste a URL and generate a
-              shareable short link.
-            </CardDescription>
+          <CardHeader>
+            <CardTitle className="text-xl font-semibold">Create Short Link</CardTitle>
+            <CardDescription>Paste a URL and generate a shareable short link.</CardDescription>
           </CardHeader>
 
           <CardContent>
             <form
-              onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-              <div>
-                <label className="mb-2 block text-sm font-medium">Destination URL</label>
+              onSubmit={handleSubmit(onSubmit)}
+              className="space-y-5"
+            >
+              <div className="grid gap-4 lg:grid-cols-[1fr_auto]">
+                <div>
+                  <label className="mb-2 block text-sm font-medium">Destination URL</label>
 
-                <Input
-                  placeholder="https://example.com"
-                  {...register("url")}
-                />
+                  <div className="flex gap-2">
+                    <Input
+                      placeholder="https://example.com"
+                      className="h-11"
+                      {...register("url")}
+                    />
+                    <Button
+                      type="submit"
+                      disabled={isPending || isAtLimit || linksPending}
+                      className="h-11 w-full bg-sky-600 px-8 hover:bg-sky-700 lg:w-auto"
+                    >
+                      {isPending ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Creating...
+                        </>
+                      ) : (
+                        "Create Link"
+                      )}
+                    </Button>
+                  </div>
 
-                {errors.url && <p className="mt-1 text-sm text-red-500">{errors.url.message}</p>}
+                  {errors.url && <p className="mt-1 text-sm text-red-500">{errors.url.message}</p>}
+                </div>
+
               </div>
 
               <div>
                 <div className="mb-2 flex items-center gap-2">
                   <label className="text-sm font-medium">Custom Link</label>
+
                   {tier === "FREE" && <Lock className="h-3 w-3 text-muted-foreground" />}
                 </div>
 
                 <div className="flex">
-                  <div className="flex items-center rounded-l-md border border-r-0 bg-sky-50 px-3 text-sm text-sky-700">cliplink.com/</div>
+                  <div className="flex items-center rounded-l-md border border-r-0 bg-slate-50 px-3 text-sm text-slate-600">
+                    {new URL(process.env.NEXT_PUBLIC_APP_URL!).host}
+                  </div>
 
                   <Input
                     disabled={tier === "FREE"}
-                    className="rounded-l-none"
+                    className="h-11 rounded-l-none"
                     placeholder="my-link"
                     {...register("customSlug")}
                   />
                 </div>
               </div>
 
+              {tier === "PRO" && slug && (
+                <div className="rounded-xl border border-sky-100 bg-sky-50 p-4">
+                  <p className="text-sm text-sky-600">Preview</p>
+                  <p className="mt-1 font-medium text-slate-900">cliplink.com/{slug}</p>
+                </div>
+              )}
 
-              {tier === "PRO" &&
-                slug && (
-                  <div className="rounded-lg border border-sky-100 bg-sky-50 p-3">
-                    <p className="text-sm text-sky-700">Preview</p>
-                    <p className="font-medium">cliplink.com/{slug}</p>
-                  </div>
-                )}
-
-              <Button
-                type="submit"
-                disabled={isPending || isAtLimit || linksPending}
-                className="w-full bg-sky-600 hover:bg-sky-700"
-              >
-                {isPending ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Creating...</> : "Create Link"}
-              </Button>
-
-              <div className="text-center text-xs text-muted-foreground">
-                {tier === "FREE" && <p>{links.length} / {TIERS.FREE.maxLinks}</p>}
-              </div>
+              {tier === "FREE" && (
+                <div className="text-center text-xs text-slate-500">
+                  {links.length} / {TIERS.FREE.maxLinks} links used
+                </div>
+              )}
 
               {isAtLimit && (
-                <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-center">
-                  <p className="font-medium text-amber-800">You've reached your free plan limit.</p>
+                <div className="rounded-xl border border-amber-200 bg-amber-50 p-4">
+                  <p className="font-medium text-amber-900">You've reached your free plan limit.</p>
                   <p className="mt-1 text-sm text-amber-700">
-                    Upgrade to create unlimited short links and unlock premiumfeatures.
+                    Upgrade to create unlimited links and unlock premium features.
                   </p>
 
-                  <Button asChild className="mt-3">
+                  <Button
+                    asChild
+                    className="mt-3"
+                  >
                     <Link href="/pricing">Upgrade Now</Link>
                   </Button>
                 </div>
@@ -212,4 +212,5 @@ export default function CreateLinkForm() {
       )}
     </Card>
   )
+
 }

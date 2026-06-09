@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Link2 } from "lucide-react";
+import { ArrowRight, LinkIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function Footer() {
@@ -32,8 +32,12 @@ export default function Footer() {
 
         <div className="flex flex-col items-center justify-between gap-6 border-t py-8 md:flex-row">
           <div>
-            <Link href="/" className="flex items-center gap-2 text-xl font-bold tracking-tight">
-              <Link2 className="w-6 h-6" /> ClipLink
+            <Link
+              href="/"
+              className="flex items-center gap-2 text-xl font-bold tracking-tight"
+            >
+              <LinkIcon className="h-4.5 w-4.5 stroke-[2.5]" />
+              <span>ClipLink</span>
             </Link>
 
           </div>

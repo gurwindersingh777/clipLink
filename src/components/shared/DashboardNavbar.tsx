@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Crown, Link2, LogOut, Sparkles } from "lucide-react";
+import { Crown, LinkIcon, LogOut, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 
 export default function DashboardNavbar() {
@@ -48,99 +48,106 @@ export default function DashboardNavbar() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
+    <header className="sticky top-0 z-50 border-b  border-slate-200 bg-white/80 backdrop-blur-xl">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
 
         <Link href="/dashboard" className="flex items-center gap-2">
-          <div className="flex items-center justify-center rounded-xl">
-            <Link2 className="h-5 w-5 " />
-          </div>
-          <p className="text-lg font-medium">ClipLink</p>
+          <LinkIcon className="h-5 w-5" />
+          <span className="text-lg font-semibold tracking-tight">ClipLink</span>
         </Link>
 
-
-        {isPending ? (
-          <Skeleton className="h-10 w-10 rounded-full" />
-        ) : (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button className="rounded-full transition hover:opacity-90 focus:outline-none">
-                <Avatar className="h-10 w-10 border">
-                  <AvatarImage
-                    src={user?.image ?? ""}
-                    alt={user?.name ?? "User"}
-                  />
-                  <AvatarFallback className="bg-neutral-900 text-white font-semibold">{initials}</AvatarFallback>
-                </Avatar>
-              </button>
-            </DropdownMenuTrigger>
-
-            <DropdownMenuContent
-              align="end"
-              className="w-72 p-0"
-            >
-              <div className="p-4">
-                <div className="flex items-start gap-3">
-                  <Avatar className="h-12 w-12">
-                    <AvatarImage
-                      src={user?.image ?? ""}
-                      alt={user?.name ?? "User"}
-                    />
-                    <AvatarFallback >{initials}</AvatarFallback>
-                  </Avatar>
-
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate font-semibold">{user?.name || "User"}</p>
-                    <p className="truncate text-sm text-muted-foreground">{user?.email}</p>
-
-                    <div className="mt-2">
-                      {tier === "PRO" ? (
-                        <Badge className="gap-1"><Crown className="h-3 w-3" />PRO</Badge>
-                      ) : (
-                        <Badge variant="secondary" className="bg-zinc-100 text-zinc-700">FREE</Badge>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-
-              {tier !== "PRO" && (
-                <>
-                  <DropdownMenuSeparator />
-                  <div className="p-3">
-                    <Button
-                      className="w-full"
-                      onClick={() =>
-                        router.push("/pricing")
-                      }
-                    >
-                      <Sparkles className="mr-2 h-4 w-4" />
-                      Upgrade to Pro
-                    </Button>
-                  </div>
-                </>
+        <div className="flex items-center gap-3">
+          {isPending ? (
+            <Skeleton className="h-9 w-24 rounded-md" />
+          ) : (
+            <>
+              {tier === "PRO" ? (
+                <Badge className=" bg-amber-500  ">
+                  PRO
+                </Badge>
+              ) : (
+                <Badge
+                  variant="secondary"
+                  className="bg-slate-100 text-slate-700"
+                  onClick={() => router.push("/pricing")}
+                >
+                  FREE
+                </Badge>
               )}
 
-              <DropdownMenuSeparator />
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="rounded-full transition hover:opacity-90 focus:outline-none">
+                    <Avatar className="h-10 w-10 border">
+                      <AvatarImage
+                        src={user?.image ?? ""}
+                        alt={user?.name ?? "User"}
+                      />
+                      <AvatarFallback className="bg-neutral-900 text-white font-semibold">{initials}</AvatarFallback>
+                    </Avatar>
+                  </button>
+                </DropdownMenuTrigger>
 
-
-              <div className="p-3">
-                <Button
-                  variant="outline"
-                  className="w-full"
-                  disabled={isSigningOut}
-                  onClick={handleLogout}
+                <DropdownMenuContent
+                  align="end"
+                  className="w-72 p-0"
                 >
-                  <LogOut className="mr-2 h-4 w-4" />
+                  <div className="p-4">
+                    <div className="flex items-start gap-3">
+                      <Avatar className="h-12 w-12">
+                        <AvatarImage
+                          src={user?.image ?? ""}
+                          alt={user?.name ?? "User"}
+                        />
+                        <AvatarFallback >{initials}</AvatarFallback>
+                      </Avatar>
 
-                  {isSigningOut ? "Logging out..." : "Logout"}
-                </Button>
-              </div>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        )}
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate font-semibold">{user?.name || "User"}</p>
+                        <p className="truncate text-sm text-muted-foreground">{user?.email}</p>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  {tier !== "PRO" && (
+                    <>
+                      <DropdownMenuSeparator />
+                      <div className="p-3">
+                        <Button
+                          className="w-full"
+                          onClick={() =>
+                            router.push("/pricing")
+                          }
+                        >
+                          <Sparkles className="mr-2 h-4 w-4" />
+                          Upgrade to Pro
+                        </Button>
+                      </div>
+                    </>
+                  )}
+
+                  <DropdownMenuSeparator />
+
+
+                  <div className="p-3">
+                    <Button
+                      variant="outline"
+                      className="w-full"
+                      disabled={isSigningOut}
+                      onClick={handleLogout}
+                    >
+                      <LogOut className="mr-2 h-4 w-4" />
+
+                      {isSigningOut ? "Logging out..." : "Logout"}
+                    </Button>
+                  </div>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </>
+          )}
+        </div>
       </div>
     </header>
-  );
+  )
 }

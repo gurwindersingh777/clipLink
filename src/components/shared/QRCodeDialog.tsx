@@ -56,7 +56,7 @@ export default function QRCodeDialog({ url, shortCode }: Props) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm">
+        <Button variant="outline" size="icon" className="h-9 w-9">
           <QrCode className=" h-4 w-4" />
         </Button>
       </DialogTrigger>

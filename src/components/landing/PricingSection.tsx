@@ -33,7 +33,7 @@ const plans = [
     name: TIERS.PRO.label,
     price: "$9",
     cta: "Upgrade",
-    href: "/pricing",
+    href: "/login",
     highlighted: true,
     features: [
       {

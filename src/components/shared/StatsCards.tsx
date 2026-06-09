@@ -20,19 +20,18 @@ function StatCard({
   icon: Icon,
 }: StatCardProps) {
   return (
-    <Card className="border-sky-100">
+    <Card className="border border-slate-200/60 bg-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md">
       <CardContent className="p-6">
-        <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-sky-100">
-          <Icon className="h-5 w-5 text-sky-600" />
+        <div className="flex items-start justify-between">
+          <div>
+            <p className="text-sm font-medium text-slate-500">{title}</p>
+            <h3 className="mt-3 text-3xl font-bold tracking-tight text-slate-900">{value}</h3>
+          </div>
+
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-sky-50">
+            <Icon className="h-5 w-5 text-sky-600" />
+          </div>
         </div>
-
-        <p className="text-sm text-muted-foreground">
-          {title}
-        </p>
-
-        <h3 className="mt-2 text-3xl font-bold">
-          {value}
-        </h3>
       </CardContent>
     </Card>
   )
@@ -65,7 +64,7 @@ export default function StatsCards() {
   }
 
   return (
-    <div className="grid gap-4 md:grid-cols-4">
+    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
       <StatCard
         title="Total Links"
         value={totalLinks}

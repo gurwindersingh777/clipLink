@@ -46,104 +46,134 @@ export default function PricingPage() {
     <>
       <DashboardNavbar />
 
-      <main className="min-h-[calc(100vh-4rem)] bg-slate-50">
-        <section className="px-6 py-8">
-          <div className="mx-auto w-full max-w-5xl">
+      <main className="min-h-[calc(100vh-4rem)] bg-linear-to-b from-sky-50 via-white to-white">
+        <section className="px-6 py-12">
+          <div className="mx-auto max-w-6xl">
 
-            <div className="mb-10">
+            <div className="mb-14 text-center">
               <Button
                 variant="ghost"
-                onClick={() => router.push('/dashboard')}
+                className="mb-6"
+                onClick={() => router.push("/dashboard")}
               >
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Back to Dashboard
               </Button>
 
-              <div className="text-center">
-                <h1 className="text-4xl font-bold tracking-tight">Pricing</h1>
-                <p className="mt-3 text-sm text-muted-foreground">
-                  Manage your subscription and unlock advanced features.
-                </p>
-              </div>
+              <h1 className="text-5xl font-bold tracking-tight">
+                Simple Pricing
+              </h1>
+
+              <p className="mx-auto mt-4 max-w-2xl text-lg text-slate-600">
+                Start for free and upgrade when you need
+                custom links, advanced analytics, and unlimited growth.
+              </p>
             </div>
 
-            <div className="grid gap-8 md:grid-cols-2">
+            <div className="grid gap-8 lg:grid-cols-2">
 
-              <Card className="relative shadow-lg">
-                <CardContent className="flex min-h-105 flex-col p-6">
+              <Card className="border-slate-200 shadow-sm">
+                <CardContent className="flex h-full flex-col p-8">
+
                   <div>
-                    <h2 className="text-xl font-bold">{TIERS.FREE.label}</h2>
-                    <div className="mt-4 text-4xl font-bold">$0</div>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      {!isPro ? "Your current plan" : "Basic plan features"}
+                    <h2 className="text-2xl font-bold">
+                      {TIERS.FREE.label}
+                    </h2>
+
+                    <div className="mt-4">
+                      <span className="text-5xl font-bold">$0</span>
+                      <span className="ml-2 text-slate-500">forever</span>
+                    </div>
+
+                    <p className="mt-3 text-slate-500">
+                      Perfect for personal projects and getting started.
                     </p>
                   </div>
 
                   {!isPro && (
-                    <div className="mt-6">
-                      <div className="mb-2 flex items-center justify-between text-sm">
+                    <div className="mt-8 rounded-2xl border bg-slate-50 p-4">
+                      <div className="mb-2 flex justify-between text-sm">
                         <span>Link Usage</span>
-                        <span className="font-medium">{currentLinks} / {maxLinks}</span>
+                        <span className="font-medium">
+                          {currentLinks} / {maxLinks}
+                        </span>
                       </div>
 
                       <Progress value={usagePercentage} />
 
-                      <p className="mt-2 text-xs text-muted-foreground">{maxLinks - currentLinks} links remaining</p>
+                      <p className="mt-2 text-xs text-slate-500">
+                        {maxLinks - currentLinks} links remaining
+                      </p>
                     </div>
                   )}
 
-                  <div className="mt-6 space-y-3">
+                  <div className="mt-8 space-y-4">
                     <Feature label={`${TIERS.FREE.maxLinks} links`} />
                     <Feature label="Basic analytics" />
                     <Feature label="QR codes" />
                   </div>
 
-                  <div className="mt-auto pt-6">
+                  <div className="mt-auto pt-10">
                     <Button
                       disabled
                       variant="outline"
-                      className="w-full border-neutral-400"
+                      className="w-full"
                     >
-                      {!isPro ? "Current Plan" : "Included in Pro"}
+                      {!isPro
+                        ? "Current Plan"
+                        : "Included in Pro"}
                     </Button>
                   </div>
                 </CardContent>
               </Card>
 
-              <Card className="relative shadow-lg">
-                <div className="absolute right-4 top-4 rounded-full bg-sky-600 px-2.5 py-1 text-xs font-semibold text-white">
-                  {isPro ? "Current Plan" : "Most Popular"}
-                </div>
+              <Card className="relative border-sky-200 shadow-xl shadow-sky-100">
 
-                <CardContent className="flex min-h-105 flex-col p-6">
+                <CardContent className="flex h-full flex-col p-8">
+
                   <div>
-                    <div className="flex items-center gap-2">
-                      <h2 className="text-xl font-bold">{TIERS.PRO.label}</h2>
-                      <Crown className="h-4 w-4 text-yellow-500" />
+                    <div className="mb-6 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <h2 className="text-2xl font-bold">
+                          {TIERS.PRO.label}
+                        </h2>
+
+                        <Crown className="h-5 w-5 text-amber-500" />
+                      </div>
+
+                      <div className="rounded-full bg-sky-100 px-3 py-1 text-xs font-semibold text-sky-700">
+                        Most Popular
+                      </div>
                     </div>
 
-                    <div className="mt-3">
-                      <span className="text-4xl font-bold">$9</span>
-                      <span className="ml-2 text-muted-foreground">/month</span>
+                    <div className="mt-4">
+                      <span className="text-5xl font-bold">$9</span>
+                      <span className="ml-2 text-slate-500">
+                        /month
+                      </span>
                     </div>
 
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      Unlimited growth with advanced analytics andcustom branding.
+                    <p className="mt-3 text-slate-500">
+                      Everything you need to scale your links and track performance.
                     </p>
-
-                    <div className="mt-6 space-y-3">
-                      <Feature label="Unlimited links" />
-                      <Feature label="Advanced analytics" />
-                      <Feature label="QR codes" />
-                      <Feature label="Custom slugs" />
-                      <Feature label="Priority support" />
-                    </div>
                   </div>
 
-                  <div className="mt-auto pt-6">
+                  <div className="mt-8 space-y-4">
+                    <Feature label="Unlimited links" />
+                    <Feature label="Advanced analytics" />
+                    <Feature label="QR codes" />
+                    <Feature label="Custom slugs" />
+                    <Feature label="Priority support" />
+                  </div>
+
+                  <div className="mt-auto pt-10">
                     {isPro ? (
-                      <Button disabled className="w-full">
-                        <Crown className="mr-2 h-4 w-4" />You're on Pro
+                      <Button
+                        disabled
+                        className="w-full"
+                      >
+                        <Crown className="mr-2 h-4 w-4" />
+                        You're on Pro
                       </Button>
                     ) : (
                       <Button
@@ -151,16 +181,21 @@ export default function PricingPage() {
                         disabled={isUpgrading}
                         className="w-full bg-sky-600 hover:bg-sky-700"
                       >
-                        {isUpgrading ?
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          :
+                        {isUpgrading ? (
                           <>
-                            <Crown className="mr-2 h-4 w-4" />Upgrade to Pro
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Upgrading...
                           </>
-                        }
+                        ) : (
+                          <>
+                            <Crown className="mr-2 h-4 w-4" />
+                            Upgrade to Pro
+                          </>
+                        )}
                       </Button>
                     )}
                   </div>
+
                 </CardContent>
               </Card>
 

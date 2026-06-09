@@ -6,7 +6,6 @@ import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, Tooltip, Legend, Resp
 import { format } from "date-fns";
 import { ArrowLeft, Calendar, MousePointerClick } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLinkAnalytics } from "@/hooks/useLinkAnalytics";
 import { analyticsUtils } from "@/lib/analyticsUtils";
@@ -48,136 +47,166 @@ export default function AnalyticsPage() {
   const hasClicks = link.clicks.length > 0
 
   return (
-    <div className="mx-auto max-w-7xl space-y-6 p-6">
+    <main className="min-h-screen bg-slate-50">
+      <div className="mx-auto max-w-7xl px-6 py-8">
 
-      <Button
-        asChild
-        variant="outline"
-      >
-        <Link href="/dashboard"><ArrowLeft className="mr-2 h-4 w-4" />Back</Link>
-      </Button>
+        <div className="mb-10 flex items-center justify-between">
+          <div>
+            <Link
+              href="/dashboard"
+              className="mb-3 inline-flex items-center text-sm text-slate-500 hover:text-slate-900"
+            >
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Dashboard
+            </Link>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Link Analytics</CardTitle>
-        </CardHeader>
-
-        <CardContent>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            <div>
-              <p className=" text-muted-foreground">Original URL</p>
-              <p className="truncate font-medium">{link.url}</p>
-            </div>
-
-            <div>
-              <p className="text-sm text-muted-foreground">Short Code</p>
-              <p className="font-medium">{link.shortCode}</p>
-            </div>
-
-            <div>
-              <p className="text-sm text-muted-foreground">Created</p>
-
-              <div className="flex items-center gap-2">
-                <Calendar className="h-4 w-4" />
-                {format(new Date(link.createdAt), "PPP")}
-              </div>
-            </div>
-
-            <div>
-              <p className="text-sm text-muted-foreground">Total Clicks</p>
-
-              <div className="flex items-center gap-2">
-                <MousePointerClick className="h-4 w-4" />
-                <span className="text-2xl font-bold">{link.clicks.length}</span>
-              </div>
-            </div>
+            <h1 className="text-4xl font-bold tracking-tight m">Analytics</h1>
+            <p className="mt-2 text-slate-500">Monitor clicks, traffic sources and audience insights.</p>
           </div>
-        </CardContent>
-      </Card>
+        </div>
 
-      {!hasClicks ? (
-        <Card>
-          <CardContent className="flex h-60 items-center justify-center">
-            <div className="text-center">
-              <h3 className="font-semibold">No clicks yet</h3>
-              <p className="text-sm text-muted-foreground">Share your link to start collecting analytics.</p>
-            </div>
-          </CardContent>
-        </Card>
-      ) : (
-        <>
-          <Card>
-            <CardHeader>
-              <CardTitle>Clicks Over Time</CardTitle>
-            </CardHeader>
+        <div className="mb-8 grid gap-4 lg:grid-cols-3">
 
-            <CardContent>
-              <div className="h-87.5">
-                <ResponsiveContainer>
-                  <BarChart data={clicksByDay}>
-                    <XAxis dataKey="date" />
-                    <YAxis />
-                    <Tooltip />
-                    <Bar dataKey="clicks" fill="#0284c7" radius={[8, 8, 0, 0]} />
-                  </BarChart>
-                </ResponsiveContainer>
+          <Card className="border-slate-200/60 shadow-sm lg:col-span-2">
+            <CardContent className="p-6">
+              <p className="text-sm text-slate-500">Original URL</p>
+
+              <div className="mt-3 rounded-xl border bg-slate-50 p-3">
+                <p className="break-all text-sm font-medium text-slate-700">{link.url}</p>
               </div>
             </CardContent>
           </Card>
 
-          <div className="grid gap-6 lg:grid-cols-2">
-            <Card>
-              <CardHeader>
-                <CardTitle>Referrer Breakdown</CardTitle>
-              </CardHeader>
+          <Card className="border-slate-200/60 shadow-sm">
+            <CardContent className="p-6">
+              <div className="grid gap-6">
 
-              <CardContent>
-                <div className="h-87.5">
-                  <ResponsiveContainer>
-                    <PieChart>
-                      <Pie
-                        data={clicksByReferrer}
-                        dataKey="value"
-                        nameKey="name"
-                        outerRadius={120}
-                        label
-                      >
-                        {clicksByReferrer.map(
-                          (_, index) => (
-                            <Cell key={index} />
-                          )
-                        )}
-                      </Pie>
-
-                      <Tooltip />
-                      <Legend />
-                    </PieChart>
-                  </ResponsiveContainer>
+                <div>
+                  <p className="text-sm text-slate-500">Short Code</p>
+                  <p className="mt-1 text-xl font-bold">{link.shortCode}</p>
                 </div>
-              </CardContent>
-            </Card>
 
-            <Card>
+                <div>
+                  <div className="flex items-center gap-2 text-sm text-slate-500">
+                    <Calendar className="h-4 w-4" />Created
+                  </div>
+                  <p className="mt-1 font-medium">{format(new Date(link.createdAt), "PPP")}</p>
+                </div>
+
+                <div>
+                  <div className="flex items-center gap-2 text-sm text-slate-500">
+                    <MousePointerClick className="h-4 w-4" />Total Clicks
+                  </div>
+                  <p className="mt-1 text-3xl font-bold">{link.clicks.length}</p>
+                </div>
+
+              </div>
+            </CardContent>
+          </Card>
+
+        </div>
+
+        {!hasClicks ? (
+          <Card className="border-slate-200/60 shadow-sm">
+            <CardContent className="flex h-80 items-center justify-center">
+              <div className="text-center">
+                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100">
+                  <MousePointerClick className="h-7 w-7 text-slate-500" />
+                </div>
+
+                <h3 className="text-lg font-semibold">No clicks yet</h3>
+                <p className="mt-2 text-slate-500">Share your link to start collecting analytics.</p>
+              </div>
+            </CardContent>
+          </Card>
+        ) : (
+          <>
+            <Card className="mb-6 border-slate-200/60 shadow-sm">
               <CardHeader>
-                <CardTitle>Country Breakdown</CardTitle>
+                <CardTitle>Clicks Over Time</CardTitle>
               </CardHeader>
 
               <CardContent>
-                <div className="h-87.5">
-                  <ResponsiveContainer>
-                    <BarChart data={clicksByCountry}>
-                      <XAxis dataKey="name" />
+                <div className="h-95">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={clicksByDay}>
+                      <XAxis dataKey="date" />
                       <YAxis />
                       <Tooltip />
-                      <Bar dataKey="value" radius={[8, 8, 0, 0]} />
+                      <Bar
+                        dataKey="clicks"
+                        fill="#0284c7"
+                        radius={[8, 8, 0, 0]}
+                      />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
               </CardContent>
             </Card>
-          </div>
-        </>
-      )}
-    </div>
-  );
+
+            <div className="grid gap-6 lg:grid-cols-2">
+
+              <Card className="border-slate-200/60 shadow-sm">
+                <CardHeader>
+                  <CardTitle>Referrer Breakdown</CardTitle>
+                </CardHeader>
+
+                <CardContent>
+                  <div className="h-87.5">
+                    <ResponsiveContainer
+                      width="100%"
+                      height="100%"
+                    >
+                      <PieChart>
+                        <Pie
+                          data={clicksByReferrer}
+                          dataKey="value"
+                          nameKey="name"
+                          outerRadius={110}
+                          label
+                        >
+                          {clicksByReferrer.map((_, index) => (
+                            <Cell key={index} />
+                          ))}
+                        </Pie>
+
+                        <Tooltip />
+                        <Legend />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="border-slate-200/60 shadow-sm">
+                <CardHeader>
+                  <CardTitle>Country Breakdown</CardTitle>
+                </CardHeader>
+
+                <CardContent>
+                  <div className="h-87.5">
+                    <ResponsiveContainer
+                      width="100%"
+                      height="100%"
+                    >
+                      <BarChart data={clicksByCountry}>
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip />
+                        <Bar
+                          dataKey="value"
+                          radius={[8, 8, 0, 0]}
+                        />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                </CardContent>
+              </Card>
+
+            </div>
+          </>
+        )}
+      </div>
+    </main>
+  )
 }

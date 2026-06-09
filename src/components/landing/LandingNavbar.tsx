@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Link2 } from "lucide-react";
+import { LinkIcon } from "lucide-react";
 
 export default function LandingNavbar() {
   return (
@@ -8,8 +8,12 @@ export default function LandingNavbar() {
 
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
 
-        <Link href="/" className="flex items-center gap-2 text-lg md:text-xl font-bold tracking-tight">
-          <Link2 className="w-6 h-6" />ClipLink
+        <Link
+          href="/"
+          className="flex items-center gap-2 text-2xl font-bold tracking-tight"
+        >
+          <LinkIcon className="h-5 w-5 stroke-[2.5]" />
+          <span>ClipLink</span>
         </Link>
 
         <div className="flex items-center gap-3">
