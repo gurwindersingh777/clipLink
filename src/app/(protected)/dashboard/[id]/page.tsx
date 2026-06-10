@@ -88,16 +88,16 @@ export default function AnalyticsPage() {
 
                 <div>
                   <div className="flex items-center gap-2 text-sm text-slate-500">
-                    <Calendar className="h-4 w-4" />Created
+                    <MousePointerClick className="h-4 w-4" />Total Clicks
                   </div>
-                  <p className="mt-1 font-medium">{format(new Date(link.createdAt), "PPP")}</p>
+                  <p className="mt-1 text-2xl font-bold">{link.clicks.length}</p>
                 </div>
 
                 <div>
                   <div className="flex items-center gap-2 text-sm text-slate-500">
-                    <MousePointerClick className="h-4 w-4" />Total Clicks
+                    <Calendar className="h-4 w-4" />Created
                   </div>
-                  <p className="mt-1 text-3xl font-bold">{link.clicks.length}</p>
+                  <p className="mt-1 font-medium">{format(new Date(link.createdAt), "PPP")}</p>
                 </div>
 
               </div>

@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma"
-import { createLinkLimiter, redirectLimiter } from "@/lib/ratelimit";
+import { redirectLimiter } from "@/lib/ratelimit";
 import { headers } from "next/headers"
 import { notFound, redirect } from "next/navigation"
 
@@ -73,7 +73,8 @@ export default async function Slug({ params }: { params: Promise<{ slug: string 
         linkId: link.id,
         ipAddress,
         userAgent: header.get("user-agent"),
-        referer: header.get("referer")
+        referer: header.get("referer"),
+        country: header.get("x-vercel-ip-country") || "Unknown"
       }
     }),
     prisma.link.update({

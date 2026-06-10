@@ -73,7 +73,7 @@ export default function LinksTable() {
             </p>
           </div>
 
-          <div className="rounded-lg border bg-slate-50 px-3 py-1.5 text-sm text-slate-600">
+          <div className="rounded-lg border bg-slate-50 px-3 py-1.5 text-sm text-slate-600 whitespace-nowrap">
             {links.length} Links
           </div>
         </div>

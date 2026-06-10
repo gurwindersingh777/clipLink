@@ -139,7 +139,7 @@ export default function CreateLinkForm() {
                     <Button
                       type="submit"
                       disabled={isPending || isAtLimit || linksPending}
-                      className="h-11 w-full bg-sky-600 px-8 hover:bg-sky-700 lg:w-auto"
+                      className="h-11 bg-sky-600  sm:px-8 hover:bg-sky-700 "
                     >
                       {isPending ? (
                         <>
@@ -165,7 +165,7 @@ export default function CreateLinkForm() {
                 </div>
 
                 <div className="flex">
-                  <div className="flex items-center rounded-l-md border border-r-0 bg-slate-50 px-3 text-sm text-slate-600">
+                  <div className="flex items-center rounded-l-md border border-r-0 bg-slate-50 px-3 text-sm text-slate-600 whitespace-nowrap">
                     {new URL(process.env.NEXT_PUBLIC_APP_URL!).host}
                   </div>
 
@@ -181,7 +181,9 @@ export default function CreateLinkForm() {
               {tier === "PRO" && slug && (
                 <div className="rounded-xl border border-sky-100 bg-sky-50 p-4">
                   <p className="text-sm text-sky-600">Preview</p>
-                  <p className="mt-1 font-medium text-slate-900">cliplink.com/{slug}</p>
+                  <p className="mt-1 font-medium text-slate-900">
+                    {new URL(process.env.NEXT_PUBLIC_APP_URL!).host}/{slug}
+                  </p>
                 </div>
               )}
 
