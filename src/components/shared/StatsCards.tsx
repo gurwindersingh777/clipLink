@@ -3,7 +3,6 @@
 import { Crown, Link2, MousePointerClick, Zap, } from "lucide-react";
 import { useLinks } from "@/hooks/useLinks";
 import { authClient } from "@/lib/auth-client";
-import { getStatus } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { LucideIcon } from "lucide-react";
 import { Skeleton } from "../ui/skeleton";
@@ -45,7 +44,10 @@ export default function StatsCards() {
   const tier = session.data?.user.tier ?? "FREE"
   const totalLinks = links.length
   const totalClicks = links.reduce((sum, link) => sum + link.count, 0)
-  const activeLinks = links.filter((link) => getStatus(link.active, link.expireAt) === "active").length
+  const activeLinks = links.filter((link) => {
+    const expired = link.expireAt && new Date(link.expireAt) < new Date()
+    return link.active && !expired
+  }).length
 
   if (isLoading || session.isPending) {
     return (

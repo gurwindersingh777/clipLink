@@ -5,7 +5,6 @@ import { useState } from "react";
 import { BarChart, Check, Copy, Lock } from "lucide-react";
 import { format } from "date-fns";
 import { StatusBadge } from "./StatusBadge";
-import { getStatus } from "@/lib/utils";
 import DeleteLink from "./DeleteLink";
 import QRCodeDialog from "./QRCodeDialog";
 import { authClient } from "@/lib/auth-client";
@@ -54,7 +53,7 @@ export default function LinksTableItem({ link }: { link: LinkType }) {
 
       <td className="px-6 py-4">{link.count}</td>
       <td className="px-6 py-4 text-sm text-slate-500">{format(new Date(link.createdAt), "MMM dd, yyyy")}</td>
-      <td className="px-6 py-4"><StatusBadge status={getStatus(link.active, link.expireAt)} /></td>
+      <td className="px-6 py-4"><StatusBadge id={link.id} active={link.active} expireAt={link.expireAt} /></td>
 
       <td className="px-6 py-4 text-right" onClick={(e) => e.stopPropagation()}>
         <TooltipProvider>

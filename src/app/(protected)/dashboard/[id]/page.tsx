@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { format } from "date-fns";
 import { ArrowLeft, Calendar, MousePointerClick } from "lucide-react";
@@ -9,8 +9,18 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLinkAnalytics } from "@/hooks/useLinkAnalytics";
 import { analyticsUtils } from "@/lib/analyticsUtils";
+import { authClient } from "@/lib/auth-client";
+import { useEffect } from "react";
 
 export default function AnalyticsPage() {
+  const router = useRouter()
+  const session = authClient.useSession()
+
+  useEffect(() => {
+    if (session.data?.user.tier === "FREE") {
+      router.replace("/dashboard");
+    }
+  }, [session.data?.user.tier, router])
 
   const params = useParams()
   const id = params.id as string
