@@ -105,6 +105,7 @@ export default function SignupPage() {
                     placeholder="John Doe"
                     className="h-10 rounded-lg"
                     {...register("name")}
+                    required
                   />
 
                   {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>}
@@ -118,6 +119,7 @@ export default function SignupPage() {
                     placeholder="john@example.com"
                     className="h-10 rounded-lg"
                     {...register("email")}
+                    required
                   />
 
                   {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>}
@@ -131,6 +133,7 @@ export default function SignupPage() {
                     placeholder="••••••••"
                     className="h-10 rounded-lg"
                     {...register("password")}
+                    required
                   />
 
                   {errors.password && <p className="mt-1 text-sm text-red-500">{errors.password.message}</p>}
@@ -144,6 +147,7 @@ export default function SignupPage() {
                     placeholder="••••••••"
                     className="h-10 rounded-lg"
                     {...register("confirmPassword")}
+                    required
                   />
 
                   {errors.confirmPassword && <p className="mt-1 text-sm text-red-500">{errors.confirmPassword.message}</p>}

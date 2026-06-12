@@ -8,35 +8,42 @@ A full-stack URL shortener built with Next.js 16, TypeScript, and PostgreSQL. Cr
 
 ## Tech Stack
 
-![Next.js](https://img.shields.io/badge/Next.js_16-000000?style=for-the-badge\&logo=nextdotjs\&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge\&logo=typescript\&logoColor=white)
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge\&logo=react\&logoColor=61DAFB)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge\&logo=tailwindcss\&logoColor=white)
+![Next.js](https://img.shields.io/badge/Next.js_16-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
 
-![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge\&logo=prisma\&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge\&logo=postgresql\&logoColor=white)
-![Redis](https://img.shields.io/badge/Upstash_Redis-00E9A3?style=for-the-badge\&logo=redis\&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
+![Redis](https://img.shields.io/badge/Upstash_Redis-00E9A3?style=for-the-badge&logo=redis&logoColor=white)
 
 ![Better Auth](https://img.shields.io/badge/Better_Auth-4F46E5?style=for-the-badge)
-![TanStack Query](https://img.shields.io/badge/TanStack_Query-FF4154?style=for-the-badge\&logo=reactquery\&logoColor=white)
+![TanStack Query](https://img.shields.io/badge/TanStack_Query-FF4154?style=for-the-badge&logo=reactquery&logoColor=white)
 
-![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge\&logo=vercel\&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 
+| Category      | Technology               |
+| ------------- | ------------------------ |
+| Framework     | Next.js 16 (App Router)  |
+| Language      | TypeScript               |
+| Styling       | Tailwind CSS + shadcn/ui |
+| Auth          | Better Auth              |
+| Database      | Prisma + Neon PostgreSQL |
+| Server State  | TanStack Query + Axios   |
+| Charts        | Recharts                 |
+| Rate Limiting | Upstash Redis            |
+| Forms         | React Hook Form + Zod    |
+| QR Codes      | react-qr-code            |
+| Deployment    | Vercel                   |
 
+---
 
-| Category | Technology |
-|---|---|
-| Framework | Next.js 16 (App Router) |
-| Language | TypeScript |
-| Styling | Tailwind CSS + shadcn/ui |
-| Auth | Better Auth |
-| Database | Prisma + Neon PostgreSQL |
-| Server State | TanStack Query + Axios |
-| Charts | Recharts |
-| Rate Limiting | Upstash Redis |
-| Forms | React Hook Form + Zod |
-| QR Codes | react-qr-code |
-| Deployment | Vercel |
+## Screenshots
+
+<img src="./screenshots/landing-page.png" width="49%"/> <img src="./screenshots/dashboard-1.png" width="49%"/>
+<img src="./screenshots/dashboard-2.png" width="49%"/> <img src="./screenshots/qr-code.png" width="49%"/>
+<img src="./screenshots/analytics-1.png" width="49%"/> <img src="./screenshots/analytics-2.png" width="49%"/>
+<img src="./screenshots/pricing.png" width="49%"/> 
 
 ---
 
@@ -86,12 +93,14 @@ src/
 ### Installation
 
 **1. Clone the repository**
+
 ```bash
 git clone https://github.com/gurwindersingh777/cliplink.git
 cd cliplink
 ```
 
 **2. Install dependencies**
+
 ```bash
 npm install
 ```
@@ -99,6 +108,7 @@ npm install
 **3. Set up environment variables**
 
 Copy `.env.example` to `.env` and fill in your values:
+
 ```bash
 cp .env.example .env
 ```
@@ -113,11 +123,13 @@ UPSTASH_REDIS_REST_TOKEN=
 ```
 
 **4. Run database migrations**
+
 ```bash
 npx prisma migrate dev
 ```
 
 **5. Start the development server**
+
 ```bash
 npm run dev
 ```
@@ -152,6 +164,7 @@ Free users are limited to 15 links. The limit is enforced server-side in `POST /
 ### Rate Limiting
 
 Two Upstash Redis sliding window limiters:
+
 - **Link creation** — 10 requests per 10 minutes per IP
 - **Redirects** — 60 requests per minute per IP
 
@@ -161,14 +174,14 @@ Sliding window is used over fixed window to prevent boundary burst attacks.
 
 ## API Routes
 
-| Method | Route | Description |
-|---|---|---|
-| POST | `/api/links` | Create a short link |
-| GET | `/api/links` | Get all links for current user |
-| DELETE | `/api/links/[id]` | Delete a link |
-| GET | `/api/links/[id]` | Get link with click analytics |
-| POST | `/api/upgrade` | Upgrade user to Pro tier |
-| ALL | `/api/auth/[...all]` | Better Auth handler |
+| Method | Route                | Description                    |
+| ------ | -------------------- | ------------------------------ |
+| POST   | `/api/links`         | Create a short link            |
+| GET    | `/api/links`         | Get all links for current user |
+| DELETE | `/api/links/[id]`    | Delete a link                  |
+| GET    | `/api/links/[id]`    | Get link with click analytics  |
+| POST   | `/api/upgrade`       | Upgrade user to Pro tier       |
+| ALL    | `/api/auth/[...all]` | Better Auth handler            |
 
 ---
 
@@ -208,6 +221,7 @@ User clicks Upgrade
 ```
 
 In production this would be replaced with:
+
 1. `POST /api/stripe/checkout` → Stripe hosted checkout page
 2. Stripe webhook → signature verification → tier update in DB
 
@@ -218,6 +232,7 @@ Simulated for demo purposes. Razorpay would be used for Indian market production
 ## Deployment
 
 Deployed on Vercel with:
+
 - Neon PostgreSQL (serverless, connection pooling enabled)
 - Upstash Redis (serverless rate limiting)
 - Automatic deployments on push to `main`
@@ -241,4 +256,3 @@ Deployed on Vercel with:
 **Gurwinder Singh**
 
 - GitHub: [@gurwindersingh777](https://github.com/gurwindersingh777)
-

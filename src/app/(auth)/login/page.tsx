@@ -95,6 +95,7 @@ export default function LoginPage() {
                     placeholder="john@example.com"
                     className="h-11 rounded-lg"
                     {...register("email")}
+                    required
                   />
 
                   {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>}
@@ -113,6 +114,7 @@ export default function LoginPage() {
                     placeholder="••••••••"
                     className="h-11 rounded-lg"
                     {...register("password")}
+                    required
                   />
 
                   {errors.password && <p className="mt-1 text-sm text-red-500">{errors.password.message}</p>}

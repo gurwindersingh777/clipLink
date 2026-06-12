@@ -110,7 +110,7 @@ export default function DashboardNavbar() {
                   </div>
 
 
-                  {tier !== "PRO" && (
+                  {tier !== "PRO" ? (
                     <>
                       <DropdownMenuSeparator />
                       <div className="p-3">
@@ -125,7 +125,22 @@ export default function DashboardNavbar() {
                         </Button>
                       </div>
                     </>
-                  )}
+                  ) :
+                    <>
+                      < DropdownMenuSeparator />
+                      <div className="p-3">
+                        <Button
+                          className="w-full"
+                          onClick={() =>
+                            router.push("/pricing")
+                          }
+                        >
+                          <Sparkles className="mr-2 h-4 w-4" />
+                           Manage Subscription
+                        </Button>
+                      </div>
+                    </>
+                  }
 
                   <DropdownMenuSeparator />
 
@@ -148,6 +163,6 @@ export default function DashboardNavbar() {
           )}
         </div>
       </div>
-    </header>
+    </header >
   )
 }
