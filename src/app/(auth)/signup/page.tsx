@@ -11,6 +11,8 @@ import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { LinkIcon, Loader2 } from "lucide-react";
+import { GitHubIcon, GoogleIcon } from "@/components/shared/SocialIcons";
+import { useState } from "react";
 
 export default function SignupPage() {
   const router = useRouter()
@@ -39,6 +41,19 @@ export default function SignupPage() {
     })
   }
 
+  const signInGoogle = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/dashboard"
+    })
+  }
+
+  const signInGithub = async () => {
+    await authClient.signIn.social({
+      provider: "github",
+      callbackURL: "/dashboard"
+    })
+  }
 
   return (
     <main className="h-screen overflow-hidden bg-linear-to-b from-white via-slate-50/40 to-white">
@@ -153,17 +168,46 @@ export default function SignupPage() {
                   {errors.confirmPassword && <p className="mt-1 text-sm text-red-500">{errors.confirmPassword.message}</p>}
                 </div>
 
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="h-10 w-full bg-sky-600 font-medium shadow-lg shadow-sky-500/20 transition-all hover:bg-sky-700 hover:shadow-sky-500/30"
-                >
-                  {isSubmitting ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  ) : (
-                    "Create Account"
-                  )}
-                </Button>
+                <div className="space-y-2">
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="h-10 w-full bg-sky-600 font-medium shadow-lg shadow-sky-500/20 transition-all hover:bg-sky-700 hover:shadow-sky-500/30"
+                  >
+                    {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : "Create Account"}
+                  </Button>
+
+
+
+                  <div className="relative my-4">
+                    <div className="absolute inset-0 flex items-center">
+                      <span className="w-full border-t border-zinc-300" />
+                    </div>
+                    <div className="relative flex justify-center text-xs uppercase">
+                      <span className="bg-white px-3 text-zinc-500">OR</span>
+                    </div>
+                  </div>
+
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={signInGoogle}
+                    className="h-8 w-full gap-2 border-zinc-300  hover:bg-zinc-100"
+                  >
+                    <GoogleIcon />
+                    Continue with Google
+                  </Button>
+
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={signInGithub}
+                    className="h-8 w-full gap-2 border-zinc-300  hover:bg-zinc-100"
+                  >
+                    <GitHubIcon />
+                    Continue with Github
+                  </Button>
+                </div>
 
                 <div className="text-center text-sm text-slate-500">
                   Already have an account?{" "}
