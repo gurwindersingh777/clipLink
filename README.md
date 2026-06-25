@@ -55,7 +55,7 @@ A full-stack URL shortener built with Next.js 16, TypeScript, and PostgreSQL. Cr
 - **QR Code Generation** — Generate and download a PNG QR code for every link
 - **Free / Pro Tiers** — Free users get 15 links. Pro users get unlimited links and custom slugs
 - **Rate Limiting** — Protects link creation and redirect endpoints from abuse
-- **Auth** — Email and password authentication with secure httpOnly sessions
+- **Auth** — Email/password + OAuth login (Google & GitHub) with secure httpOnly sessions
 
 ---
 
@@ -120,6 +120,10 @@ BETTER_AUTH_URL=http://localhost:3000
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 UPSTASH_REDIS_REST_URL=
 UPSTASH_REDIS_REST_TOKEN=
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
 ```
 
 **4. Run database migrations**
@@ -157,6 +161,9 @@ When a user visits `cliplink.com/abc123`:
 
 Better Auth handles sessions via httpOnly cookies. Middleware checks the cookie on every request — no database call on each page load. Session verification only happens in API routes when needed.
 
+OAuth Login -
+ClipLink supports secure social authentication using Google and GitHub via Better Auth. Users can sign in instantly without creating a password, while sessions remain managed through secure httpOnly cookies.
+
 ### Tier Enforcement
 
 Free users are limited to 15 links. The limit is enforced server-side in `POST /api/links` — never client-side. The client UI disables the form when the limit is reached, but the API always has the final say.
@@ -190,7 +197,7 @@ Sliding window is used over fixed window to prevent boundary burst attacks.
 ```
 User          — id, email, name, tier, emailVerified
 Session       — id, token, userId, expiresAt
-Account       — id, userId, providerId, password
+Account       — id, userId, providerId (google/github/email), password (optional for credentials login)
 Verification  — id, identifier, value, expiresAt
 Link          — id, shortCode, customSlug, url, userId, active, count, expireAt
 Click         — id, linkId, ipAddress, userAgent, referer, country, createdAt
