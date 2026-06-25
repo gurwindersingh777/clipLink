@@ -154,20 +154,6 @@ export default function SignupPage() {
                   {errors.password && <p className="mt-1 text-sm text-red-500">{errors.password.message}</p>}
                 </div>
 
-                <div>
-                  <label className="mb-2 block text-sm font-medium">Confirm Password</label>
-
-                  <Input
-                    type="password"
-                    placeholder="••••••••"
-                    className="h-10 rounded-lg"
-                    {...register("confirmPassword")}
-                    required
-                  />
-
-                  {errors.confirmPassword && <p className="mt-1 text-sm text-red-500">{errors.confirmPassword.message}</p>}
-                </div>
-
                 <div className="space-y-2">
                   <Button
                     type="submit"
@@ -176,8 +162,6 @@ export default function SignupPage() {
                   >
                     {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : "Create Account"}
                   </Button>
-
-
 
                   <div className="relative my-4">
                     <div className="absolute inset-0 flex items-center">
