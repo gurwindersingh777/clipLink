@@ -45,7 +45,7 @@ export default function Footer() {
           <div className="flex items-center gap-6 text-sm text-muted-foreground">
             <Link href="/privacy" className="transition hover:text-foreground">Privacy</Link>
             <Link href="/terms" className="transition hover:text-foreground">Terms</Link>
-            <Link href="/pricing" className="transition hover:text-foreground">Pricing</Link>
+            <Link href="#" className="transition hover:text-foreground">Pricing</Link>
             <Link
               href="https://github.com/gurwindersingh777"
               target="_blank" rel="noopener noreferrer" className="transition hover:text-foreground">
