@@ -246,18 +246,6 @@ Deployed on Vercel with:
 
 ---
 
-## What I Learned
-
-- Next.js App Router patterns — server vs client components, route groups, dynamic segments
-- Full auth system implementation with Better Auth and Prisma adapter
-- IDOR security and ownership checks on every mutation
-- TanStack Query patterns — `useQuery`, `useMutation`, cache invalidation
-- Rate limiting with sliding window algorithm
-- Prisma transactions for atomic database operations
-- Serverless deployment considerations — connection pooling, stateless functions
-
----
-
 ## Author
 
 **Gurwinder Singh**
