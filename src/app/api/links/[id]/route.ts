@@ -78,7 +78,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
 
     const { id } = await params
 
-    const link = await prisma.link.findUnique({ where: { id } })
+    const link = await prisma.link.findFirst({ where: { id, userId: session.user.id } })
 
     if (!link) {
       return NextResponse.json({ message: "Link not found" }, { status: 404 })

@@ -12,7 +12,6 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { LinkIcon, Loader2 } from "lucide-react";
 import { GitHubIcon, GoogleIcon } from "@/components/shared/SocialIcons";
-import { useState } from "react";
 
 export default function SignupPage() {
   const router = useRouter()

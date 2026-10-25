@@ -12,6 +12,12 @@ export function proxy(request: NextRequest) {
 
   const isAuthenticated = !!sessionCookie
 
+  const isProtected = pathname === "/dashboard" || pathname.startsWith("/dashboard/")
+
+  if (isProtected && !isAuthenticated) {         
+    return NextResponse.redirect(new URL("/login", request.url))
+  }
+
   if (protectedRoutes.includes(pathname) && !isAuthenticated) {
     return NextResponse.redirect(new URL("/login", request.url))
   }
@@ -28,5 +34,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/login", "/signup", "/dashboard"],
+  matcher: ["/", "/login", "/signup", "/dashboard/:path*"],
 };

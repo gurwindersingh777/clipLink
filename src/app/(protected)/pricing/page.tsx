@@ -173,7 +173,7 @@ export default function PricingPage() {
                         className="w-full"
                       >
                         <Crown className="mr-2 h-4 w-4" />
-                        You're on Pro
+                        You&apos;re on Pro 
                       </Button>
                     ) : (
                       <Button

@@ -13,7 +13,7 @@ export default function NotFound() {
 
         <h1 className="text-4xl font-bold tracking-tight">Page not found</h1>
 
-        <p className="mt-4 text-muted-foreground">The page you're looking for doesn't exist or may have been moved.</p>
+        <p className="mt-4 text-muted-foreground">The page you&apos;re looking for doesn&apos;t exist or may have been moved.</p>
 
         <Button asChild className="mt-8 bg-sky-600 hover:bg-sky-700">
           <Link href="/">Back to Home</Link>

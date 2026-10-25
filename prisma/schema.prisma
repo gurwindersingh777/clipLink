@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -89,6 +90,8 @@ model Link {
   count      Int       @default(0)
   expireAt   DateTime?
   clicks     Click[]
+
+  @@index([userId])
 }
 
 model Click {
@@ -100,4 +103,6 @@ model Click {
   userAgent String?
   referer   String?
   country   String?
+
+  @@index([linkId, createdAt])
 }
