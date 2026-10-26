@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckCircle2, Copy, ExternalLink, Link2, Loader2, Lock, } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -26,10 +26,10 @@ export default function CreateLinkForm() {
   const [copied, setCopied] = useState(false)
   const [createdLink, setCreatedLink] = useState<string | null>(null);
 
-  const { register, watch, handleSubmit, reset, formState: { errors }
+  const { register, control, handleSubmit, reset, formState: { errors }
   } = useForm<linkFormValues>({ resolver: zodResolver(linkSchema) })
 
-  const slug = watch("customSlug")
+  const slug = useWatch({ control, name: "customSlug" })
 
   const { mutate, isPending } = useCreateLink()
 
@@ -195,7 +195,7 @@ export default function CreateLinkForm() {
 
               {isAtLimit && (
                 <div className="rounded-xl border border-amber-200 bg-amber-50 p-4">
-                  <p className="font-medium text-amber-900">You've reached your free plan limit.</p>
+                  <p className="font-medium text-amber-900">You&apos;ve reached your free plan limit.</p>
                   <p className="mt-1 text-sm text-amber-700">
                     Upgrade to create unlimited links and unlock premium features.
                   </p>

@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Crown, LinkIcon, LogOut, Sparkles } from "lucide-react";
+import { LinkIcon, LogOut, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 
 export default function DashboardNavbar() {

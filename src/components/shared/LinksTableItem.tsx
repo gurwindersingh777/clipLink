@@ -2,7 +2,7 @@
 import { Link as LinkType } from "@prisma/client";
 import { Button } from "../ui/button";
 import { useState } from "react";
-import { BarChart, Check, Copy, Lock } from "lucide-react";
+import { BarChart, Check, Copy } from "lucide-react";
 import { format } from "date-fns";
 import { StatusBadge } from "./StatusBadge";
 import DeleteLink from "./DeleteLink";
