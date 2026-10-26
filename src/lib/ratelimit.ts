@@ -19,3 +19,9 @@ export const redirectLimiter = new Ratelimit({
   limiter: Ratelimit.slidingWindow(REDIRECT_LIMIT, "1 m"),
   prefix: "ratelimit:redirect",
 })
+
+export const paymentLimiter = new Ratelimit({
+  redis,
+  limiter: Ratelimit.slidingWindow(5, "10 m"),
+  prefix: "ratelimit:payment",
+})

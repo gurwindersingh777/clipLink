@@ -17,6 +17,7 @@ model User {
   emailVerified Boolean   @default(false)
   sessions      Session[]
   accounts      Account[]
+  payments      Payment[]
   links         Link[]
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
@@ -105,4 +106,24 @@ model Click {
   country   String?
 
   @@index([linkId, createdAt])
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+}
+
+model Payment {
+  id                String        @id @default(cuid())
+  userId            String
+  user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  razorpayOrderId   String        @unique
+  razorpayPaymentId String?       @unique
+  amount            Int           
+  currency          String        @default("INR")
+  status            PaymentStatus @default(PENDING)
+  createdAt         DateTime      @default(now())
+  paidAt            DateTime?
+
+  @@index([userId])
 }

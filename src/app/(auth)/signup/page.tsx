@@ -35,7 +35,7 @@ export default function SignupPage() {
         router.push('/dashboard')
       },
       onError: (ctx) => {
-        toast.error(ctx.error.message)
+        toast.error(ctx.error.message || "Something went wrong. Please try again.")
       },
     })
   }

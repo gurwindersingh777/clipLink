@@ -9,3 +9,9 @@ export const TIERS = {
     label: "Pro"
   }
 } as const
+
+export const PRO_PLAN = {
+  amount: 49900,   // ₹499.00
+  currency: "INR",
+  name: "ClipLink Pro",
+} as const

@@ -3,7 +3,7 @@
 import { ArrowLeft, Check, Crown, Loader2 } from "lucide-react";
 import DashboardNavbar from "@/components/shared/DashboardNavbar";
 import { authClient } from "@/lib/auth-client";
-import { TIERS } from "@/lib/constants";
+import { TIERS, PRO_PLAN } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -11,6 +11,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useLinks } from "@/hooks/useLinks";
 import { useUpgrade } from "@/hooks/useUpgrade";
 import { useRouter } from "next/navigation";
+
+const PRO_PRICE = `₹${PRO_PLAN.amount / 100}`
 
 export default function PricingPage() {
 
@@ -147,10 +149,8 @@ export default function PricingPage() {
                     </div>
 
                     <div className="mt-4">
-                      <span className="text-5xl font-bold">$9</span>
-                      <span className="ml-2 text-slate-500">
-                        /month
-                      </span>
+                      <span className="text-5xl font-bold">{PRO_PRICE}</span>
+                      <span className="ml-2 text-slate-500">one-time</span>
                     </div>
 
                     <p className="mt-3 text-slate-500">
@@ -173,7 +173,7 @@ export default function PricingPage() {
                         className="w-full"
                       >
                         <Crown className="mr-2 h-4 w-4" />
-                        You&apos;re on Pro 
+                        You&apos;re on Pro
                       </Button>
                     ) : (
                       <Button
@@ -184,7 +184,7 @@ export default function PricingPage() {
                         {isUpgrading ? (
                           <>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Upgrading...
+                            Processing....
                           </>
                         ) : (
                           <>

@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { TIERS } from "@/lib/constants";
+import { TIERS, PRO_PLAN } from "@/lib/constants";
 
 const plans = [
   {
     name: TIERS.FREE.label,
-    price: "$0",
+    price: "₹0",
     cta: "Get Started",
     href: "/signup",
     highlighted: false,
@@ -31,7 +31,7 @@ const plans = [
   },
   {
     name: TIERS.PRO.label,
-    price: "$9",
+    price: `₹${PRO_PLAN.amount / 100}`,
     cta: "Upgrade",
     href: "/login",
     highlighted: true,
@@ -87,7 +87,7 @@ export default function PricingSection() {
 
               <div className="mt-4">
                 <span className="text-5xl font-bold">{plan.price}</span>
-                {plan.price !== "$0" && <span className="ml-2 text-muted-foreground">/month</span>}
+                {plan.price !== "₹0" && <span className="ml-2 text-muted-foreground">one-time</span>}
               </div>
 
               <ul className="mt-8 space-y-4">
